@@ -18,4 +18,5 @@ Installing
 
 How to use
 ----------
-In powershell, in your project directory, type "open" and press Enter. It should find your solution file in the current directory and subdirectories and start it in Visual Studio.
+In powershell, in your project directory, type `Open-Solution` and press Enter. It should find your solution file in the current directory and subdirectories and start it in Visual Studio. Optionally you can specify a solution name for the command to search for, e.g. `Open-Solution mysolution` would open any mysolution.sln files it finds.
+

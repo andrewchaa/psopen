@@ -5,5 +5,3 @@ function Open-Solution($solutionName = '*', $path = '.') {
         start $sln.FullName
     }
 }
-
-Set-Alias Open Open-Solution
