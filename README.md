@@ -4,7 +4,7 @@ psopen
 A simple powershell profile script that recursively finds a solution file and open it in visual studio
 
 
-Most of time, we do things in the shell, whther it’s bash, powershell, or command prompt. We do git pull and run go.bat. Then, to open the solution, we have to launch Windows Explorer and rummage through folders to find the solution file, which often hides itself behind the project file. It’s often frustrating and painful (not physically, though). This is a solution to that problem. Thanks to [Jon(https://github.com/jonfinerty)] for the idea.
+Most of time, we do things in the shell, whther it’s bash, powershell, or command prompt. We do git pull and run go.bat. Then, to open the solution, we have to launch Windows Explorer and rummage through folders to find the solution file, which often hides itself behind the project file. It’s often frustrating and painful (not physically, though). This is a solution to that problem. Thanks to (Jon[https://github.com/jonfinerty]) for the idea.
 
 Installing
 ----------
