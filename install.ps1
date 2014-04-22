@@ -36,6 +36,8 @@ if(Select-String -Path $PROFILE -Pattern $profileLine -Quiet -SimpleMatch) {
 
 Write-Host "Adding psopen to profile..."
 @"
+
+
 # Load psopen function
 $profileLine
 
