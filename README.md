@@ -11,4 +11,4 @@ Installing
 2. Start powershell prompt (of course, :-) )
 3. From the psopen repository directory, run .\install.ps1
 4. Reload powershell profile by running . $profile
-4. Not it's ready. Enjoy!
+4. Now it's ready. Enjoy!
