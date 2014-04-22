@@ -1,7 +1,7 @@
 psopen
 ======
 
-a simple powershell profile script that recursively finds a solution file and open it in visual studio
+A simple powershell profile script that recursively finds a solution file and open it in visual studio
 
 
 Installing
@@ -10,4 +10,5 @@ Installing
 1. Clone the psopen repository to your local machine
 2. Start powershell prompt (of course, :-) )
 3. From the psopen repository directory, run .\install.ps1
-4. Have fun!
+4. Reload powershell profile by running . $profile
+4. Not it's ready. Enjoy!
