@@ -7,8 +7,12 @@ if(Test-Path $favSolutions) {
 
 function Open-Solution($name = '*', $path = '.') {
     if ($name -ne '*') {
-        handleSolutionName($name)
-        return
+
+        $sln = handleSolutionName($name)
+        if ($sln) {
+            startSolution($sln)
+            return
+        }
     }
 
     $sln = Get-ChildItem $path "$name.sln" -Recurse | Select-Object -First 1;
@@ -31,22 +35,28 @@ function TabExpansion($line, $lastWord) {
 }
 
 function handleTab($lastBlock) {
-    $solutions.Keys | sort
+    switch -regex ($lastBlock) {
+        'Open-SOlution (.*)$' {
+            $solutions.Keys | Where { $_ -Like $matches[1] + '*' } | sort
+        }
+    }
+    
 }
 
 function handleSolutionName($name) {
     $fullName = $solutions.Get_Item($name)
     if ($fullName) {
-        $sln = Get-Item $fullName
-        startSolution $sln
+        return Get-Item $fullName
     }
+
+    return Get-ChildItem $path "$name.sln" -Recurse | Select-Object -First 1;
 }
 
 function startSolution($sln) {
     if ($sln) {
         Write-Host "Opening " $sln.Name " now ..."
-        # start $sln.FullName
-        Write-Host "VS " $sln.FullName
+        start $sln.FullName
+        # Write-Host "VS " $sln.FullName
         
         rememberSolution($sln)
 
