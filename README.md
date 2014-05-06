@@ -28,5 +28,5 @@ e.g. `Open-Solution yoursolution`
 It will search for yoursolution.sln recursively and open it, if it finds it
 
 ### Tab completion.
-Once the script opens a solution file, it stores its path in `favs.xml`. `Open-Solution ` and press Tab. Then it will auto-complete the name of each stored solution file. If you manuall updates the file, please reload profile by typing '. $profile" and press ENTER.
+Once the script opens a solution file, it stores its path in `favs.xml`. `Open-Solution ` and press Tab. Then it will auto-complete the name of each stored solution file. If you manuall updates the file, please reload profile by typing `. $profile` and press ENTER.
 
