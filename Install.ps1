@@ -28,7 +28,7 @@ function Get-FileEncoding($Path) {
     }
 }
 
-$profileLine = ". '$installDir\open.ps1'"
+$profileLine = ". '$installDir\PsOpen.ps1'"
 if(Select-String -Path $PROFILE -Pattern $profileLine -Quiet -SimpleMatch) {
     Write-Host "It seems psopen is already installed..."
     return
