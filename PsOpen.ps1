@@ -1,5 +1,7 @@
 $solutions = @{}
 
+
+
 $favSolutions = $PSScriptRoot + '\favs.xml'
 if(Test-Path $favSolutions) {
     $solutions = Import-CliXml $favSolutions 
@@ -67,8 +69,11 @@ function startSolution($sln) {
 }
 
 function rememberSolution($sln) {
-    $solutions = Import-CliXml $favSolutions 
-    if (!$solutions.ContainsKey($sln.Name)) {
+    if (Test-Path $favSolutions) {
+        $solutions = Import-CliXml $favSolutions 
+    }
+
+    if ($solutions -and !$solutions.ContainsKey($sln.Name)) {
         $solutions.Add($sln.Name, $sln.FullName)
     }
     
