@@ -1,53 +1,28 @@
-$solutions = @{}
+$solutions = @{}; 
 
-# Many thanks to Jeremy Skinner's posthttp://www.jeremyskinner.co.uk/2010/03/07/using-git-with-windows-powershell/
-function handleSolutionName($name) {
-    $fullName = $solutions.Get_Item($name)
-    if ($fullName) {
-        return Get-Item $fullName
-    }
-
-    return Get-ChildItem $path "$name.sln" -Recurse | Select-Object -First 1;
+if (Test-Path $env:USERPROFILE/ps-open.xml) {
+    $solutions = Import-CliXml $env:USERPROFILE/ps-open.xml
 }
 
-function rememberSolution($sln) {
-    if (Test-Path $favSolutions) {
-        $solutions = Import-CliXml $favSolutions 
-    }
+if ((Test-Path Function:\TabExpansion) -and (Test-Path Function:\TabExpansionBackupForPsOpen) -eq $false) {
+    Rename-Item Function:\TabExpansion TabExpansionBackupForPsOpen
+}
 
-    if ($solutions -and !$solutions.ContainsKey($sln.Name)) {
-        $solutions.Add($sln.Name, $sln.FullName)
+function Open-Solution($name) {
+    if ($name) {
+        start $solutions."$name"
+    } else {
+        Write-Host "Plase use tab completion to find the solution name"
+        Write-Host "To discover all solutions, please run Find-Solution"
     }
+}
+
+function Find-Solutions($path = '.') {
+    $solutions = @{}
+    $solutions = Get-ChildItem $path -Recurse -Filter *.sln | 
+        %{ Write-Host Discovering $_.Name; @{($_.Name -replace "ClearBank.") = $_.FullName }}
     
-    $solutions | Export-CliXml -Path $favSolutions
-}
-
-function startSolution($sln) {
-    if ($sln) {
-        Write-Host "Opening " $sln.Name " now ..."
-        start $sln.FullName
-        # Write-Host "VS " $sln.FullName
-        
-        rememberSolution($sln)
-
-        return
-    }
-
-    Write-Host "Cannot find the solution file" 
-}
-
-function Open-Solution($name = '*', $path = '.') {
-    if ($name -ne '*') {
-
-        $sln = handleSolutionName($name)
-        if ($sln) {
-            startSolution($sln)
-            return
-        }
-    }
-
-    $sln = Get-ChildItem $path "$name.sln" -Recurse | Select-Object -First 1;
-    startSolution($sln)
+    $solutions | Export-CliXml -Path $env:USERPROFILE\ps-open.xml
 }
 
 function handleTab($lastBlock) {
@@ -56,22 +31,6 @@ function handleTab($lastBlock) {
             $solutions.Keys | Where { $_ -Like $matches[1] + '*' } | sort
         }
     }
-    
-}
-
-function Find-Solutions($path = '.') {
-    $slns = Get-ChildItem $path "*.sln" -Recurse
-
-}
-
-
-$favSolutions = $PSScriptRoot + '\favs.xml'
-if(Test-Path $favSolutions) {
-    $solutions = Import-CliXml $favSolutions 
-}
-
-if (Test-Path Function:\TabExpansion) {
-    Rename-Item Function:\TabExpansion TabExpansionBackupForPsOpen
 }
 
 function TabExpansion($line, $lastWord) {
