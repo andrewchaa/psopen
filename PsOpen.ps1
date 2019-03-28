@@ -4,9 +4,14 @@ if (Test-Path $env:USERPROFILE/ps-open.xml) {
     $solutions = Import-CliXml $env:USERPROFILE/ps-open.xml
 }
 
-if ((Test-Path Function:\TabExpansion) -and (Test-Path Function:\TabExpansionBackupForPsOpen) -eq $false) {
-    Rename-Item Function:\TabExpansion TabExpansionBackupForPsOpen
-}
+if ((Test-Path Function:\TabExpansion) -and 
+    (Get-Content Function:\TabExpansion | %{ $_ -Contains "Open-Solution" }) -eq $false) {
+        if (Test-Path Function:\TabExpansionBackupForPsOpen) {
+            Remove-Item Function:\TabExpansionBackupForPsOpen
+        }
+
+        Rename-Item Function:\TabExpansion TabExpansionBackupForPsOpen
+    }
 
 function Open-Solution($name) {
     if ($name) {
@@ -26,13 +31,13 @@ function Find-Solutions($path = '.') {
         }
     
     $solutions | Export-CliXml -Path $env:USERPROFILE\ps-open.xml
-    Write-Host 'Reloaded the profile'
+    Write-Host "Reloaded the profile"
     & $profile
 }
 
 function handleTab($lastBlock) {
     switch -regex ($lastBlock) {
-        'Open-SOlution (.*)$' {
+        'Open-Solution (.*)$' {
             $solutions.Keys | Where { $_ -Like $matches[1] + '*' } | sort
         }
     }
