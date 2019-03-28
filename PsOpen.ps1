@@ -20,9 +20,14 @@ function Open-Solution($name) {
 function Find-Solutions($path = '.') {
     $solutions = @{}
     $solutions = Get-ChildItem $path -Recurse -Filter *.sln | 
-        %{ Write-Host Discovering $_.Name; @{($_.Name -replace "ClearBank.") = $_.FullName }}
+        %{ 
+            Write-Host Discovering $_.Name; 
+            @{($_.Name -replace "ClearBank.") = $_.FullName }
+        }
     
     $solutions | Export-CliXml -Path $env:USERPROFILE\ps-open.xml
+    Write-Host 'Reloaded the profile'
+    & $profile
 }
 
 function handleTab($lastBlock) {
